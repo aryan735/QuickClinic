@@ -27,6 +27,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .roles(user.getRoles().toArray(new String[0]))
                 .build();
 
-
     }
 }

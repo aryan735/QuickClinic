@@ -3,9 +3,11 @@ package com.quickclinic.userauth.repository;
 import com.quickclinic.userauth.dto.UserResponseDto;
 import com.quickclinic.userauth.entity.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserModel,Long> {
@@ -16,4 +18,17 @@ public interface UserRepository extends JpaRepository<UserModel,Long> {
     boolean existsByUsername(String username);
     @Query("SELECT u FROM UserModel u LEFT JOIN FETCH u.roles WHERE u.username = :username")
     UserModel findByUsername(@Param("username") String username);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE UserModel u SET u.username=:username,u.email=:email,u.age=:age WHERE u.username=:username1")
+    int updateUserDetails(@Param("username") String username,
+                           @Param("email") String email,
+                           @Param("age") int age,
+                           @Param("username1") String username1);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM UserModel u WHERE u.username=:username")
+    int deleteByUsername(@Param("username") String username);
 }

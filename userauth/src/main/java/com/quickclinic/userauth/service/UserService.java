@@ -48,4 +48,30 @@ public class UserService {
         return user;
 
     }
+
+    public UserResponseDto updateUserDetails(UserRequestDto user, String username) {
+        if (userRepository.existsByUsername(username)) {
+            int i = userRepository.updateUserDetails(user.getUsername(), user.getEmail(), user.getAge(), username);
+            if (i>0){
+                return UserResponseDto.builder()
+                        .username(user.getUsername())
+                        .email(user.getEmail())
+                        .age(user.getAge()).build();
+            }
+        }
+        log.warn("User not found with this username :{}",username);
+        throw new UserAuthException("User not found!");
+    }
+
+    public String deleteUser(String username) {
+        if (userRepository.existsByUsername(username)){
+           int i= userRepository.deleteByUsername(username);
+           if (i>0){
+               log.info("User Deleted Successfully!");
+               return "User Deleted Successfully!";
+           }
+        }
+        log.warn("User Deletion Failed with this username : {}",username);
+        throw new UserAuthException("User Deletion Failed!");
+    }
 }
