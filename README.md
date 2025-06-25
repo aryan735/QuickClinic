@@ -1,29 +1,31 @@
-# 🚑 **QuickMedic - Hospital Management Microservice**
+🚑 QuickMedic - Hospital Management Microservice
+QuickMedic is a hospital management microservice built with Spring Boot, designed for clean REST APIs, role-based security, and scalable architecture.
 
-**QuickMedic** is a hospital management microservice built with **Spring Boot**, designed for clean REST APIs, role-based security, and scalable architecture.
+🚀 Features
+✅ JWT Authentication + Role-Based Access (USER / ADMIN)
+✅ Admin Capabilities
 
----
+Grant admin role to users
 
-## 🚀 **Features**
-✅ **JWT Authentication + Role-Based Access (USER / ADMIN)**  
-✅ **Admin Capabilities**
-- Grant admin role to users
-- View individual / all user details
-- Delete users (with role cleanup)
+View individual / all user details
 
-✅ **User Capabilities**
-- Secure registration (password encoded with BCrypt)
-- JWT-based login
+Delete users (with role cleanup)
 
-✅ **Tech Stack**
-- ![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white)
-- ![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?logo=springboot&logoColor=white)
-- ![Microservices](https://img.shields.io/badge/Microservices-009688?logo=aws-lambda&logoColor=white)
-- ![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
+✅ User Capabilities
 
----
-#⚙️ Architecture
+Secure registration (BCrypt password encoding)
 
+JWT-based login
+
+💻 Tech Stack
+
+
+
+
+⚙️ Architecture
+pgsql
+Copy
+Edit
 Spring Boot App (UserAuth Service)
 │
 ├── Spring Security + JWT
