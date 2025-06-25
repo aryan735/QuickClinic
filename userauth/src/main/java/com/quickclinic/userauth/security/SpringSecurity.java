@@ -34,6 +34,7 @@ private final JwtFilter jwtFilter;
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/users/**").hasRole(Roles.USER.name())
+                        .requestMatchers("/admin/**").hasRole(Roles.ADMIN.name())
                         .anyRequest().authenticated()
                 )
 //                .httpBasic(Customizer.withDefaults()) // ✅ modern way, no deprecation

@@ -1,5 +1,6 @@
 package com.quickclinic.userauth.service;
 
+import com.quickclinic.userauth.dto.UpdateUserDto;
 import com.quickclinic.userauth.dto.UserRequestDto;
 import com.quickclinic.userauth.dto.UserResponseDto;
 import com.quickclinic.userauth.entity.UserModel;
@@ -49,14 +50,16 @@ public class UserService {
 
     }
 
-    public UserResponseDto updateUserDetails(UserRequestDto user, String username) {
+    public UserResponseDto updateUserDetails(UpdateUserDto user, String username) {
         if (userRepository.existsByUsername(username)) {
             int i = userRepository.updateUserDetails(user.getUsername(), user.getEmail(), user.getAge(), username);
             if (i>0){
+                UserModel user2 = userRepository.findByUsername(user.getUsername());
                 return UserResponseDto.builder()
-                        .username(user.getUsername())
-                        .email(user.getEmail())
-                        .age(user.getAge()).build();
+                        .id(user2.getId())
+                        .username(user2.getUsername())
+                        .email(user2.getEmail())
+                        .age(user2.getAge()).build();
             }
         }
         log.warn("User not found with this username :{}",username);
@@ -74,4 +77,6 @@ public class UserService {
         log.warn("User Deletion Failed with this username : {}",username);
         throw new UserAuthException("User Deletion Failed!");
     }
+
+
 }

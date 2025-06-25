@@ -1,6 +1,5 @@
 package com.quickclinic.userauth.service;
 
-import com.quickclinic.userauth.dto.UserResponseDto;
 import com.quickclinic.userauth.entity.UserModel;
 import com.quickclinic.userauth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

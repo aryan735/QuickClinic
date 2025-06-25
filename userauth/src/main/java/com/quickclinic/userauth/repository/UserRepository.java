@@ -31,4 +31,5 @@ public interface UserRepository extends JpaRepository<UserModel,Long> {
     @Transactional
     @Query("DELETE FROM UserModel u WHERE u.username=:username")
     int deleteByUsername(@Param("username") String username);
+
 }

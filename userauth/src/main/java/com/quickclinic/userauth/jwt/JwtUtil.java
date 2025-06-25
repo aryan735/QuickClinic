@@ -57,7 +57,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .setHeaderParam("typ","JWT")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60))
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*10))
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
 

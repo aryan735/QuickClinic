@@ -1,18 +1,30 @@
 package com.quickclinic.userauth.UserServiceTest;
 
-import com.quickclinic.userauth.dto.UserResponseDto;
-import com.quickclinic.userauth.service.UserService;
+
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootTest
-@RequiredArgsConstructor
+
 public class UserServiceTest {
-    private final UserService userService;
+
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Test
-    public void testUserDetails(String username){
+    public void testPwd() {
+        String raw = "ramsing123";
+        String hashed = encoder.encode(raw);  // Generate hash
+
+        System.out.println("Generated hash: " + hashed);
+
+        boolean matches = encoder.matches(raw, hashed); // Now this will be true
+        System.out.println("Password match? " + matches);
 
     }
+
 }

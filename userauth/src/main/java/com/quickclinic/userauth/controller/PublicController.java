@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,13 +37,13 @@ public class PublicController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User Created Successfully!");
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto user){
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-      String jwt = jwtUtil.generateToken(userDetails);
+    public ResponseEntity<String> login(@Valid @RequestBody LoginDto user){
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        String jwt = jwtUtil.generateToken((UserDetails) auth.getPrincipal());
 
       return ResponseEntity.status(HttpStatus.CREATED).body(jwt);
     }
+
 
 }

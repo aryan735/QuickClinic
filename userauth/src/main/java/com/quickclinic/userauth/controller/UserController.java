@@ -1,5 +1,6 @@
 package com.quickclinic.userauth.controller;
 
+import com.quickclinic.userauth.dto.UpdateUserDto;
 import com.quickclinic.userauth.dto.UserRequestDto;
 import com.quickclinic.userauth.dto.UserResponseDto;
 import com.quickclinic.userauth.exception.UserAuthException;
@@ -29,7 +30,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
     @PutMapping("/update-details")
-    public ResponseEntity<UserResponseDto> updateUserDetails(@RequestBody UserRequestDto user){
+    public ResponseEntity<UserResponseDto> updateUserDetails(@RequestBody UpdateUserDto user){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserResponseDto userResponseDto = userService.updateUserDetails(user, auth.getName());
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
