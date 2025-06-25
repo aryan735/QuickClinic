@@ -24,7 +24,7 @@
 ---
 
 ## ⚙️ **Architecture**
-```plaintext
+
 Spring Boot App (UserAuth Service)
 │
 ├── Spring Security + JWT
@@ -43,8 +43,6 @@ Endpoint	Method	Access	Description
 
 🛠 Run Locally
 bash
-Copy
-Edit
 git clone https://github.com/aryan735/QuickClinic
 cd QuickClinic
 mvn clean install
