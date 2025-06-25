@@ -22,15 +22,22 @@
 - ![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
 
 ---
-
-## ⚙️ **Architecture**
-
+⚙️ Architecture
+pgsql
+Copy
+Edit
 Spring Boot App (UserAuth Service)
 │
 ├── Spring Security + JWT
 ├── MySQL (User + Role tables)
 └── REST APIs for user/admin
-👉 Planned: Redis caching, Kafka event streams, Docker deployment
+👉 Planned:
+
+Redis caching
+
+Kafka event streams
+
+Docker deployment
 
 📂 Endpoints
 Endpoint	Method	Access	Description
@@ -43,6 +50,8 @@ Endpoint	Method	Access	Description
 
 🛠 Run Locally
 bash
+Copy
+Edit
 git clone https://github.com/aryan735/QuickClinic
 cd QuickClinic
 mvn clean install
@@ -56,10 +65,13 @@ Kafka for audit/event streaming
 
 Docker & cloud deployment
 
-API rate limiting, Swagger UI docs
+API rate limiting
+
+Swagger UI docs
 
 🙌 Author
 Aryan Raj
 📞 8294299735
 📧 aryanraj.dev.net@gmail.com
 🔗 LinkedIn
+
