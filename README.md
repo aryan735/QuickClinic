@@ -1,95 +1,120 @@
 
-# 🚑 **QuickMedic - Hospital Management Microservice**
+# 🚑 QuickMedic - Hospital Management Microservices
 
-QuickMedic is a hospital management microservice built with **Spring Boot**, designed for clean REST APIs, role-based security, and scalable architecture.
+**QuickMedic** is a scalable microservices-based hospital management system built using **Spring Boot**, designed with clean REST APIs, role-based security, modular architecture, and now includes service discovery and API gateway integration.
 
 ---
 
-## 🚀 **Features**
+## 🚀 Features
 
-✅ **JWT Authentication + Role-Based Access** (USER / ADMIN)
-✅ **Admin Capabilities**
+### ✅ Authentication & Authorization
+
+* JWT-based authentication
+* Role-based access control (`USER`, `ADMIN`)
+
+### ✅ Admin Capabilities
 
 * Grant admin role to users
-* View individual / all user details
-* Delete users (with role cleanup)
+* View all users or fetch by ID
+* Delete users and clean associated roles
 
-✅ **User Capabilities**
+### ✅ User Capabilities
 
 * Secure registration (BCrypt password encoding)
-* JWT-based login
+* Login to receive JWT tokens
 
 ---
 
-## 💻 **Tech Stack**
+## ⚙️ Microservices Architecture
 
-![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk\&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?logo=springboot\&logoColor=white)
-![Microservices](https://img.shields.io/badge/Microservices-009688?logo=aws-lambda\&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql\&logoColor=white)
-
-👉 *Planned additions:*
-![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis\&logoColor=white)
-![Kafka](https://img.shields.io/badge/Kafka-231F20?logo=apachekafka\&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker\&logoColor=white)
+| Microservice                | Description                                      |
+| --------------------------- | ------------------------------------------------ |
+| **Service Registry**        | Built with Eureka Server for service discovery   |
+| **API Gateway**             | Central entry point using Spring Cloud Gateway   |
+| **UserAuth Service**        | Handles login, registration, and role-based auth |
+| *(Planned)* Patient Service | Will handle patient records & appointment mgmt   |
 
 ---
 
-## ⚙️ **Architecture**
+## 💻 Tech Stack
 
-```
-Spring Boot App (UserAuth Service)
-│
-├── Spring Security + JWT
-├── MySQL (User + Role tables)
-└── REST APIs for user/admin
-```
+* Java 17
+* Spring Boot 3.0.5
+* Spring Cloud 2022.0.5
+* Spring Security + JWT
+* Eureka Server & Client
+* Spring Cloud Gateway
+* MySQL (user data)
 
-👉 Planned: Redis caching, Kafka event streams, Docker deployment
+### 👉 Planned Additions:
 
----
-
-## 📂 **Endpoints**
-
-| Endpoint                          | Method | Access | Description         |
-| --------------------------------- | ------ | ------ | ------------------- |
-| `/public/register`                | POST   | Public | Register new user   |
-| `/public/login`                   | POST   | Public | Login & get JWT     |
-| `/admin/grant-admin/id/{id}`      | POST   | ADMIN  | Grant admin rights  |
-| `/admin/get-user-details/id/{id}` | GET    | ADMIN  | Fetch user info     |
-| `/admin/get-users`                | GET    | ADMIN  | List all users      |
-| `/admin/delete-user-by-Id/{id}`   | DELETE | ADMIN  | Delete user + roles |
+* Redis (for caching)
+* Kafka (for event streaming)
+* Docker (for containerization & deployment)
 
 ---
 
-## 🛠 **Run Locally**
+## 📂 Key API Endpoints
+
+| Endpoint                          | Method | Access | Description                 |
+| --------------------------------- | ------ | ------ | --------------------------- |
+| `/public/register`                | POST   | Public | Register a new user         |
+| `/public/login`                   | POST   | Public | Login & receive JWT token   |
+| `/admin/grant-admin/id/{id}`      | POST   | ADMIN  | Grant admin privileges      |
+| `/admin/get-user-details/id/{id}` | GET    | ADMIN  | Fetch specific user details |
+| `/admin/get-users`                | GET    | ADMIN  | Get all registered users    |
+| `/admin/delete-user-by-Id/{id}`   | DELETE | ADMIN  | Delete user and roles       |
+
+✅ All routes are now accessible through the **API Gateway** (`http://localhost:8085/...`)
+
+---
+
+## 🛠 Run Locally
 
 ```bash
 git clone https://github.com/aryan735/QuickClinic
 cd QuickClinic
 mvn clean install
-mvn spring-boot:run
 ```
 
-✅ *Configure your `application.properties` for MySQL connection!*
+Start services in order:
+
+1. Service Registry (Eureka)
+2. UserAuth Service
+3. API Gateway
+
+✅ Configure `application.yml` / `application.properties` for MySQL and Eureka
 
 ---
 
-## 🔮 **Planned Enhancements**
+## 📦 Git Hygiene
 
-* Redis caching
-* Kafka for audit/event streaming
-* Docker & cloud deployment
-* API rate limiting
-* Swagger UI docs
+This project uses a `.gitignore` to exclude:
+
+* Build artifacts (`target/`)
+* IDE configs (`.idea/`, `*.iml`)
+* Logs, OS temp files
+* Environment secrets (`.env`)
 
 ---
 
-## 🙌 **Author**
+## 🔮 Planned Enhancements
+
+* ✅ Service Registry with Eureka
+* ✅ Spring Cloud Gateway
+* ☑️ Patient microservice
+* ☑️ Redis caching
+* ☑️ Kafka for audit/event streaming
+* ☑️ Dockerized deployment
+* ☑️ Swagger UI integration
+* ☑️ API rate limiting & monitoring
+
+---
+
+## 🙌 Author
 
 **Aryan Raj**
 📞 8294299735
 📧 [aryanraj.dev.net@gmail.com](mailto:aryanraj.dev.net@gmail.com)
 🔗 [LinkedIn](https://www.linkedin.com/in/aryan-raj-2b9598326/)
-
----
+🔗 X [X](https://x.com/aryann_dev))
