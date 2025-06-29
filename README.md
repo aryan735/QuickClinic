@@ -117,4 +117,4 @@ This project uses a `.gitignore` to exclude:
 📞 8294299735
 📧 [aryanraj.dev.net@gmail.com](mailto:aryanraj.dev.net@gmail.com)
 🔗 [LinkedIn](https://www.linkedin.com/in/aryan-raj-2b9598326/)
-🔗 X [X](https://x.com/aryann_dev))
+🔗 X [X](https://x.com/aryann_dev)
