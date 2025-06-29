@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: USER-AUTH
   jpa:
     show-sql: true
     hibernate:
@@ -8,7 +10,14 @@ spring:
     username: ${USERNAME}
     password: ${PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+server:
+  port: 8081
 eureka:
   client:
-    enabled: false
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+  instance:
+    prefer-ip-address: true
