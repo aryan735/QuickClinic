@@ -1,21 +1,44 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom"; // ⬅️ import navigation
+import axiosInstance from "../utils/axiosInstance";
+
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // ⬅️ initialize navigation
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("/public/login", { username, password });
-      alert(`Login success. JWT: ${res.data}`);
-      // localStorage.setItem("token", res.data);
-    } catch (err) {
-      console.error(err);
-      alert("Login failed");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axiosInstance.post("/public/login", { username, password });
+    localStorage.setItem("token", res.data); // ✅ store token
+    navigate("/dashboard"); // ✅ redirect after login
+  } catch (err) {
+    console.error(err);
+
+    // ⛔ Check for JWT expiration or bad credentials
+    if (err.response) {
+      if (err.response.status === 401) {
+        
+        alert("Session expired. Please log in again.");
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else if (err.response.status === 403) {
+          localStorage.removeItem("token");
+        navigate("/login");
+        alert("Access denied.");
+      } else {
+        alert("Login failed: " + err.response.data);
+      }
+    } else {
+      alert("Login failed. Server may be unreachable.");
     }
-  };
+  }
+};
+
+  
+  // your existing JSX remains unchanged...
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

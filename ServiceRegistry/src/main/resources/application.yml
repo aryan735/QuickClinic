@@ -5,6 +5,12 @@ server:
   port: 8761
 
 eureka:
+  server:
+    renewal-percent-threshold: 0.85
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 60000  # Run eviction every 60s
+  instance:
+    hostname: localhost
   client:
     register-with-eureka: false
     fetch-registry: false

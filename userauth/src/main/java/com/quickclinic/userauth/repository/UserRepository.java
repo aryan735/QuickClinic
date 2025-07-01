@@ -21,11 +21,11 @@ public interface UserRepository extends JpaRepository<UserModel,Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE UserModel u SET u.username=:username,u.email=:email,u.age=:age WHERE u.username=:username1")
+    @Query("UPDATE UserModel u SET u.username=:username,u.email=:email,u.age=:age WHERE u.id=:id")
     int updateUserDetails(@Param("username") String username,
                            @Param("email") String email,
                            @Param("age") int age,
-                           @Param("username1") String username1);
+                           @Param("id") Long id);
 
     @Modifying
     @Transactional

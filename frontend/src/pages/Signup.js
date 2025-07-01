@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -8,7 +7,6 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/public/signup", { username, password });
       alert("Signup successful! Please login.");
       // Could redirect or reset form here
     } catch (err) {

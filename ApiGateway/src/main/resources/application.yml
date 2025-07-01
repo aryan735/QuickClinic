@@ -7,15 +7,35 @@ spring:
 
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
       routes:
         - id: USER-AUTH
-          uri: http://localhost:8081
+          uri: lb://USER-AUTH
           predicates:
             - Path=/public/**
+        - id: USER-AUTH
+          uri: lb://USER-AUTH
+          predicates:
+           - Path=/users/**
+
+        - id: USER-AUTH
+          uri: lb://USER-AUTH
+          predicates:
+           - Path=/admin/**
+
 
 eureka:
   client:
@@ -26,7 +46,14 @@ eureka:
 
   instance:
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10   # Heartbeat interval
+    lease-expiration-duration-in-seconds: 30 # Expire after 30 sec of no heartbeat
 
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

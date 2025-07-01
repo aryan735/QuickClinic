@@ -50,17 +50,14 @@ public class UserService {
 
     }
 
-    public UserResponseDto updateUserDetails(UpdateUserDto user, String username) {
+    public void updateUserDetails(UpdateUserDto user, String username) {
         if (userRepository.existsByUsername(username)) {
-            int i = userRepository.updateUserDetails(user.getUsername(), user.getEmail(), user.getAge(), username);
-            if (i>0){
-                UserModel user2 = userRepository.findByUsername(user.getUsername());
-                return UserResponseDto.builder()
-                        .id(user2.getId())
-                        .username(user2.getUsername())
-                        .email(user2.getEmail())
-                        .age(user2.getAge()).build();
+            UserModel user1 = userRepository.findByUsername(username);
+            int i = userRepository.updateUserDetails(user.getUsername(), user.getEmail(), user.getAge(), user1.getId());
+            if (i<1){
+               throw new UserAuthException("Updataion failed!");
             }
+            return;
         }
         log.warn("User not found with this username :{}",username);
         throw new UserAuthException("User not found!");

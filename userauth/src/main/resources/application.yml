@@ -21,3 +21,11 @@ eureka:
 
   instance:
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10   # Heartbeat interval
+    lease-expiration-duration-in-seconds: 30 # Expire after 30 sec of no heartbeat
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

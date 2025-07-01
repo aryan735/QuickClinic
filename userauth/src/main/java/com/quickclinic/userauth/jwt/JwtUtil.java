@@ -18,7 +18,7 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY="aryanSuperSecretKeyForJWTToken2025!@#";
+    private final String SECRET_KEY="very_secure_secret_key_for_jwt_quickclinic";
 
     private SecretKey getSecretKey(){
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));

@@ -30,10 +30,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
     @PutMapping("/update-details")
-    public ResponseEntity<UserResponseDto> updateUserDetails(@RequestBody UpdateUserDto user){
+    public ResponseEntity<String> updateUserDetails(@RequestBody UpdateUserDto user){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserResponseDto userResponseDto = userService.updateUserDetails(user, auth.getName());
-        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+            userService.updateUserDetails(user, auth.getName());
+        return ResponseEntity.status(HttpStatus.OK).body("User Updated Successfully!");
     }
 
     @DeleteMapping("/delete-user")
