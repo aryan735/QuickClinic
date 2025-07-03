@@ -1,2 +1,5 @@
-package com.quickclinic.patient.client;public class UserClient {
+package com.quickclinic.patient.client;
+
+
+public class UserClient {
 }

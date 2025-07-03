@@ -28,5 +28,6 @@ public class PatientResponseDto {
 
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
+
 }
 
