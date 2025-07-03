@@ -109,6 +109,178 @@ This project uses a `.gitignore` to exclude:
 * ☑️ Swagger UI integration
 * ☑️ API rate limiting & monitoring
 
+
+**QuickClinic Patient Microservice & Kafka Setup Documentation**
+
+---
+
+### 🌐 Project Context
+
+This documentation captures all the core changes and configurations made to the **Patient Microservice** in the `QuickClinic` project. It includes:
+
+* Microservice setup and structure
+* Kafka integration setup using Docker Compose
+* JavaMailSender configuration
+* Git commands and best practices for commit
+
+---
+
+## 📂 Directory Structure (Updated)
+
+```
+QuickClinic/
+├── quickclinic-patient/
+│   ├── src/main/java/com/quickclinic/patient/
+│   │   ├── controller/
+│   │   │   └── PatientController.java
+│   │   ├── dtos/
+│   │   │   ├── PatientRequestDto.java
+│   │   │   ├── PatientResponseDto.java
+│   │   │   └── PatientUpdateDto.java
+│   │   ├── entity/PatientModel.java
+│   │   ├── repository/PatientRespository.java
+│   │   ├── service/PatientService.java
+│   │   ├── exceptions/
+│   │   │   ├── GlobalException.java
+│   │   │   ├── ExceptionModel.java
+│   │   │   └── PatientException.java
+│   │   ├── client/UserClient.java
+│   └── resources/application.yml
+├── docker/
+│   └── kafka-init.sh
+├── docker-compose.yml
+```
+
+---
+
+## 🚀 Kafka + JavaMailSender Setup
+
+### `application.yml` (Patient Microservice)
+
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: patient-mail-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.quickclinic.patient.dtos
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: your-email@gmail.com
+    password: your-password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+```
+
+### `docker-compose.yml`
+
+```yaml
+version: '3.8'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+```
+
+### `kafka-init.sh`
+
+```bash
+#!/bin/bash
+
+sleep 10
+
+kafka-topics.sh --create \
+  --bootstrap-server kafka:9092 \
+  --replication-factor 1 \
+  --partitions 3 \
+  --topic patient-mail-topic \
+  --if-not-exists
+```
+
+> Ensure the script uses **LF line endings**, not CRLF.
+> VS Code ➔ Bottom-right corner ➔ Set to `LF`
+
+---
+
+## 📃 Git Commands Used
+
+```bash
+# Stage docker folder & files
+git add docker/
+git add docker-compose.yml
+
+# Optional: re-stage LF-safe script
+git rm --cached docker/kafka-init.sh
+git add docker/kafka-init.sh
+
+# Commit message
+git commit -m "chore(docker): added docker-compose setup and Kafka topic initializer script"
+
+# Push to GitHub
+git push origin main
+
+# Later commit for config updates:
+git add .
+git commit -m "Added kafka config, database config, java mail sender config"
+git push origin main
+```
+
+---
+
+## 🏆 X Post for Build In Public
+
+```text
+📅 Infra Update – QuickClinic Build in Public
+✔️ Kafka config for async messaging
+✔️ DB & MailSender setup added
+🚪 Clean commit pushed
+📂 Repo: github.com/aryan735/QuickClinic
+
+#BuildInPublic #SpringBoot #Kafka #Microservices #JavaDev
+```
+
+---
+
+## ✅ Next Steps
+
+* Connect to Wi-Fi → Finalize Docker containers
+* Start Kafka and test Patient registration flow
+* Send mail from Kafka consumer
+* Document DTO -> Entity mapping in service layer
+
+Let me know when you're back online — we'll wire up the logic!
+
 ---
 
 ## 🙌 Author
