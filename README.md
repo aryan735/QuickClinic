@@ -281,6 +281,16 @@ We will use Kafka for event-driven communication:
 Kafka will allow our services to remain decoupled, scalable, and more resilient.
 
 ---
+### 🛰️ Kafka Integration (Self-Hosted)
+
+- Set up **Kafka & Zookeeper** via Docker Compose for local development and production deployment.
+- Patient microservice:
+  - Publishes `PatientRegisteredEvent` to topic `patient.registered` upon new application.
+- Notification service:
+  - Listens to `patient.registered` topic using Kafka Consumer.
+  - Sends a confirmation email with full application data to the patient.
+- Fully logged with SLF4J for observability and debugging.
+
 
 📝 **Last Updated:** July 2025
 
