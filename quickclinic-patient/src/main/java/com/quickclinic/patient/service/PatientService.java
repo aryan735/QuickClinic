@@ -1,6 +1,6 @@
 package com.quickclinic.patient.service;
 
-import com.quickclinic.patient.dtos.PatientRequestDto;
+import com.quickclinic.patient.controller.dtos.PatientRequestDto;
 
 public interface PatientService {
 

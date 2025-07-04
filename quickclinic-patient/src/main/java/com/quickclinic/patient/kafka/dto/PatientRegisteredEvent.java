@@ -1,16 +1,18 @@
-package com.quickclinic.patient.dtos;
-
+package com.quickclinic.patient.kafka.dto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
-public class PatientResponseDto {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class PatientRegisteredEvent {
 
     private Long patientId;
-    private Long userId;
-    private Long doctorId;
     private String doctorName;
 
     private String name;
@@ -25,9 +27,4 @@ public class PatientResponseDto {
     private String city;
     private String state;
     private String zip;
-
-    private LocalDateTime createdTime;
-    private LocalDateTime updatedTime;
-
 }
-

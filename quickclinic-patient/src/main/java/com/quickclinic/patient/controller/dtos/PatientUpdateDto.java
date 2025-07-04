@@ -1,4 +1,4 @@
-package com.quickclinic.patient.dtos;
+package com.quickclinic.patient.controller.dtos;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

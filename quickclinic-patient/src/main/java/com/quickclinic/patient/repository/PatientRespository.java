@@ -1,6 +1,6 @@
 package com.quickclinic.patient.repository;
 
-import com.quickclinic.patient.dtos.PatientResponseDto;
+import com.quickclinic.patient.controller.dtos.PatientResponseDto;
 import com.quickclinic.patient.entity.PatientModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
