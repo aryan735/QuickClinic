@@ -23,9 +23,6 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    volumes:
-      - ./docker/kafka-init.sh:/kafka-init.sh
-    command: ["sh", "-c", "kafka-server-start.sh /etc/kafka/server.properties & sleep 15 && sh /kafka-init.sh"]
 
   redis:
     image: redis:7.2
