@@ -256,32 +256,34 @@ git commit -m "Added kafka config, database config, java mail sender config"
 git push origin main
 ```
 
+## 🔌 Kafka Integration (Infrastructure Setup)
+
+We have integrated **self-hosted Kafka** into QuickClinic using Docker Compose to enable asynchronous communication between microservices.
+
+### 📦 Technologies Used
+- **Kafka** (via `confluentinc/cp-kafka:7.4.0`)
+- **Zookeeper** (via `confluentinc/cp-zookeeper:7.4.0`)
+- **Docker Compose**
+
+### 📂 Location
+Kafka and Zookeeper are defined in the `docker-compose.yml` file at the root of the project.
+
+### ✅ Current Status
+- Kafka & Zookeeper are fully set up and running using Docker.
+- Docker Compose ensures Kafka runs alongside other services in both development and production environments.
+- Topics can be managed via CLI (`kafka-topics`).
+
+### 🔜 Upcoming Integration Plan
+We will use Kafka for event-driven communication:
+- `PatientService` will **publish** events (e.g., `patient.registered`)
+- `NotificationService` will **consume** those events and send confirmation emails
+
+Kafka will allow our services to remain decoupled, scalable, and more resilient.
+
 ---
 
-## 🏆 X Post for Build In Public
+📝 **Last Updated:** July 2025
 
-```text
-📅 Infra Update – QuickClinic Build in Public
-✔️ Kafka config for async messaging
-✔️ DB & MailSender setup added
-🚪 Clean commit pushed
-📂 Repo: github.com/aryan735/QuickClinic
-
-#BuildInPublic #SpringBoot #Kafka #Microservices #JavaDev
-```
-
----
-
-## ✅ Next Steps
-
-* Connect to Wi-Fi → Finalize Docker containers
-* Start Kafka and test Patient registration flow
-* Send mail from Kafka consumer
-* Document DTO -> Entity mapping in service layer
-
-Let me know when you're back online — we'll wire up the logic!
-
----
 
 ## 🙌 Author
 
