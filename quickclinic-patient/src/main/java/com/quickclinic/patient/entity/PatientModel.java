@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "patients")
 @Builder
+@Data
 public class PatientModel {
 
     //

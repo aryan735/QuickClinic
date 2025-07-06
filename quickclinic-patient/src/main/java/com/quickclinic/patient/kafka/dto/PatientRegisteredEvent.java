@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PatientRegisteredEvent {
 
+    private String status;
+    private Long userId;
     private Long patientId;
     private String doctorName;
 
