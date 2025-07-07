@@ -82,7 +82,7 @@ public class PatientServiceImpl implements PatientService{
                 .orElseThrow(() -> new PatientException("Patient Not Found with this patientId : " + id));
 
         return PatientResponseDto.builder()
-                .status("PENDING")
+                .status(patient.getStatus())
                 .patientId(patient.getPatientId())
                 .userId(patient.getUserId())
                 .doctorId(patient.getDoctorId())
