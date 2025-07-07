@@ -25,7 +25,7 @@ public class PatientServiceImpl implements PatientService{
     //Saving the patient application
     @Override
     public void createPatient(PatientRequestDto patient) {
-        try {
+
             //Creating an instance of the  original PatientModel for saving in db
             PatientModel patientModel = PatientModel.builder()
                     .status("PENDING")
@@ -69,41 +69,45 @@ public class PatientServiceImpl implements PatientService{
             kafkaProducer.sendEvent(mailDto); //sending the copy to the producer
             //logs for debbuging
             log.info("Patient application saved for userId={} and email={}", save.getUserId(), save.getEmail());
-        }catch (Exception e){
-            log.error("Exception While saving user!");
-            throw new PatientException("Exception while saving patient application!");
-        }
 
     }
 
     @Override
     public PatientResponseDto getPatientById(Long id) {
-        PatientModel patient = patientRepository.findById(id)
-                .orElseThrow(() -> new PatientException("Patient Not Found with this patientId : " + id));
+            PatientModel patient = patientRepository.findById(id)
+                    .orElseThrow(() -> new PatientException("Patient Not Found with this patientId : " + id));
 
-        return PatientResponseDto.builder()
-                .status(patient.getStatus())
-                .patientId(patient.getPatientId())
-                .userId(patient.getUserId())
-                .doctorId(patient.getDoctorId())
-                .doctorName(patient.getDoctorName())
-                .name(patient.getName())
-                .email(patient.getEmail())
-                .dob(patient.getDob())
-                .age(patient.getAge())
-                .gender(patient.getGender())
-                .phoneNo(patient.getPhoneNo())
-                .alternativePhoneNo(patient.getAlternativePhoneNo())
-                .address(patient.getAddress())
-                .city(patient.getCity())
-                .state(patient.getState())
-                .zip(patient.getZip())
-                .build();
+            log.info("Returning the patient info by the patientID : {}",id);
+            return PatientResponseDto.builder()
+                    .status(patient.getStatus())
+                    .patientId(patient.getPatientId())
+                    .userId(patient.getUserId())
+                    .doctorId(patient.getDoctorId())
+                    .doctorName(patient.getDoctorName())
+                    .name(patient.getName())
+                    .email(patient.getEmail())
+                    .dob(patient.getDob())
+                    .age(patient.getAge())
+                    .gender(patient.getGender())
+                    .phoneNo(patient.getPhoneNo())
+                    .alternativePhoneNo(patient.getAlternativePhoneNo())
+                    .address(patient.getAddress())
+                    .city(patient.getCity())
+                    .state(patient.getState())
+                    .zip(patient.getZip())
+                    .build();
+
     }
 
+    //Fetching all patients applications of a user
     @Override
     public List<PatientResponseDto> getAllPatientsOfAUser(Long userId) {
-return null;
+        List<PatientResponseDto> patientsByUserId = patientRepository.getPatientsByUserId(userId);
+        if (patientsByUserId.isEmpty()){
+            log.error("Patients are not available with this userId : {}",userId);
+            throw new PatientException("Patients not found with this userId : "+userId);
+        }
+        return null;
     }
 
     @Override
