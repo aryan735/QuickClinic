@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -19,9 +21,12 @@ public class PatientServiceImpl implements PatientService{
     private final PatientRepository patientRepository;
     private final KafkaProducer kafkaProducer;
 
+
+    //Saving the patient application
     @Override
     public void createPatient(PatientRequestDto patient) {
         try {
+            //Creating an instance of the  original PatientModel for saving in db
             PatientModel patientModel = PatientModel.builder()
                     .status("PENDING")
                     .userId(patient.getUserId())
@@ -39,7 +44,11 @@ public class PatientServiceImpl implements PatientService{
                     .state(patient.getState())
                     .zip(patient.getZip())
                     .build();
+
+            //Saving the patient application into database
             PatientModel save = patientRepository.save(patientModel);
+
+            //creating a copy of the application to send to the kafka producer
             PatientRegisteredEvent mailDto = PatientRegisteredEvent.builder()
                     .status(save.getStatus())
                     .userId(save.getUserId())
@@ -57,8 +66,8 @@ public class PatientServiceImpl implements PatientService{
                     .state(save.getState())
                     .zip(save.getZip())
                     .build();
-            kafkaProducer.sendEvent(mailDto); // or kafkaProducer.send(mailDto);
-
+            kafkaProducer.sendEvent(mailDto); //sending the copy to the producer
+            //logs for debbuging
             log.info("Patient application saved for userId={} and email={}", save.getUserId(), save.getEmail());
         }catch (Exception e){
             log.error("Exception While saving user!");
@@ -68,17 +77,17 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public void getPatientById(Long id) {
-
+    public PatientResponseDto getPatientById(Long id) {
+return null;
     }
 
     @Override
-    public void getAllPatientsOfAUser(Long userId) {
-
+    public List<PatientResponseDto> getAllPatientsOfAUser(Long userId) {
+return null;
     }
 
     @Override
-    public void UpdatePatientDetails(PatientResponseDto patient, Long patientId) {
+    public void updatePatientDetails(PatientRequestDto patient, Long patientId) {
 
     }
 

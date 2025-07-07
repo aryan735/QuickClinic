@@ -17,6 +17,7 @@ public class KafkaProducer {
     //Kafka topic
     private static final String TOPIC = "quickclinic-test";
 
+    //this method will send the data to the topic
     public void sendEvent(PatientRegisteredEvent event){
         try {
             String json = new ObjectMapper().writeValueAsString(event);

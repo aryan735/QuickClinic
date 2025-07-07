@@ -15,6 +15,7 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
+    //Sending a copy of the application to the patient
     public void sendApplictionCopy(PatientRegisteredEvent event){
        try {
            SimpleMailMessage mail = new SimpleMailMessage();

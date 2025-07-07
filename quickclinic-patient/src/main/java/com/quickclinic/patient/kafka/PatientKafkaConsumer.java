@@ -19,12 +19,15 @@ public class PatientKafkaConsumer {
     private final ObjectMapper objectMapper;
     private final EmailService emailService;
 
+    //this consumer will consume the data from the topic
     @KafkaListener(topics = "quickclinic-test", groupId="noti")
     public void consumePatientEvent(ConsumerRecord<String , String > record){
         try{
             String  value = record.value();
             log.info("Received Kafka Event : {}", value);
             PatientRegisteredEvent event = objectMapper.readValue(value, PatientRegisteredEvent.class);
+
+            //the data is sending to the email service to send to the patient
             emailService.sendApplictionCopy(event);
         } catch (Exception e) {
             log.error("Error processing Kafka message : {}", e.getMessage());
