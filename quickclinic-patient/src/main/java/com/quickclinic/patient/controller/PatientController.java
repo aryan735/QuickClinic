@@ -2,7 +2,6 @@ package com.quickclinic.patient.controller;
 
 import com.quickclinic.patient.controller.dtos.PatientRequestDto;
 import com.quickclinic.patient.controller.dtos.PatientResponseDto;
-import com.quickclinic.patient.service.PatientService;
 import com.quickclinic.patient.service.PatientServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,4 @@ public class PatientController {
         patientService.deletePatientApplication(id);
         return ResponseEntity.status(HttpStatus.OK).body("Patient Application deleted successfully!");
     }
-
-
-
 }

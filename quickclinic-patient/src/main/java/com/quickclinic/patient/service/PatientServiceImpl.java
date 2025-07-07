@@ -78,7 +78,27 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public PatientResponseDto getPatientById(Long id) {
-return null;
+        PatientModel patient = patientRepository.findById(id)
+                .orElseThrow(() -> new PatientException("Patient Not Found with this patientId : " + id));
+
+        return PatientResponseDto.builder()
+                .status("PENDING")
+                .patientId(patient.getPatientId())
+                .userId(patient.getUserId())
+                .doctorId(patient.getDoctorId())
+                .doctorName(patient.getDoctorName())
+                .name(patient.getName())
+                .email(patient.getEmail())
+                .dob(patient.getDob())
+                .age(patient.getAge())
+                .gender(patient.getGender())
+                .phoneNo(patient.getPhoneNo())
+                .alternativePhoneNo(patient.getAlternativePhoneNo())
+                .address(patient.getAddress())
+                .city(patient.getCity())
+                .state(patient.getState())
+                .zip(patient.getZip())
+                .build();
     }
 
     @Override
