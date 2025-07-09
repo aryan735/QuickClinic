@@ -132,7 +132,13 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public void deletePatientApplication(Long patientId) {
-        if (patientRepository.existsById(patientId))
+        if (patientRepository.existsById(patientId)){
 
+            patientRepository.deleteById(patientId);
+            log.info("Patient deleted successfully with this patientId : {}",patientId);
+            return;
+        }
+       log.error("Patient not found with this patientId : {}",patientId);
+        throw new PatientException("Patient not found with this patientId : "+patientId);
     }
 }
