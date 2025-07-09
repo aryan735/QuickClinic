@@ -131,7 +131,7 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public void deletePatientApplication(Long patientId) {
+    public void deletePatient(Long patientId) {
         if (patientRepository.existsById(patientId)){
 
             patientRepository.deleteById(patientId);
