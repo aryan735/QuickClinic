@@ -2,6 +2,7 @@ package com.quickclinic.patient.service;
 
 import com.quickclinic.patient.controller.dtos.PatientRequestDto;
 import com.quickclinic.patient.controller.dtos.PatientResponseDto;
+import com.quickclinic.patient.controller.dtos.PatientUpdateDto;
 import com.quickclinic.patient.entity.PatientModel;
 import com.quickclinic.patient.exceptions.PatientException;
 import com.quickclinic.patient.kafka.KafkaProducer;
@@ -111,7 +112,17 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public void updatePatientDetails(PatientRequestDto patient, Long patientId) {
+    public void updatePatientDetails(PatientUpdateDto patient, Long patientId) {
+        if (patientRepository.existsById(patientId)) {
+            int i = patientRepository.updatePatientDetails(patient.getDoctorName(), patient.getDoctorId(), patient.getName(), patient.getEmail(), patient.getDob(), patient.getAge(), patient.getGender(), patient.getPhoneNo(), patient.getAlternativePhoneNo(), patient.getAddress(), patient.getCity(), patient.getState(), patient.getZip(), patientId);
+            if (i <1) {
+                throw new PatientException("Patient details update failed!");
+            }
+            log.info("Patient details are updated successfully with the patientId : {}", patientId);
+            return;
+        }
+        log.warn("Patient Not found with this patientId : {}",patientId);
+        throw new PatientException("Patient Not found with this patientId : "+patientId);
 
     }
 
