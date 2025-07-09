@@ -10,5 +10,6 @@ import java.time.LocalDateTime;
 public class ExceptionModel {
     private LocalDateTime timestamp;
     private String message;
+    private String path;
     private String errorCode;
 }
