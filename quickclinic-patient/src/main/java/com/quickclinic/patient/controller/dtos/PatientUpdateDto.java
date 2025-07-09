@@ -17,6 +17,9 @@ public class PatientUpdateDto {
     @Size(min = 3, max = 50, message = "Doctor name must be 3 to 50 characters")
     private String doctorName;
 
+    @NotNull
+    private Long doctorId;
+
     @Size(min = 3, max = 50, message = "Name must be 3 to 50 characters")
     private String name;
 
