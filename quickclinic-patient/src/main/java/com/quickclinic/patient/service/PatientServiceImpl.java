@@ -108,7 +108,8 @@ public class PatientServiceImpl implements PatientService{
             log.error("Patients are not available with this userId : {}",userId);
             throw new PatientException("Patients not found with this userId : "+userId);
         }
-        return null;
+        log.info("Patients Found of this user whose userId is : {}", userId);
+        return patientsByUserId;
     }
 
     @Override
