@@ -103,13 +103,17 @@ public class PatientServiceImpl implements PatientService{
     //Fetching all patients applications of a user
     @Override
     public List<PatientResponseDto> getAllPatientsOfAUser(Long userId) {
-        List<PatientResponseDto> patientsByUserId = patientRepository.getPatientsByUserId(userId);
-        if (patientsByUserId.isEmpty()){
-            log.error("Patients are not available with this userId : {}",userId);
-            throw new PatientException("Patients not found with this userId : "+userId);
+        if (patientRepository.existsByUserId(userId)) {
+            List<PatientResponseDto> patientsByUserId = patientRepository.getPatientsByUserId(userId);
+            if (patientsByUserId.isEmpty()) {
+                log.error("Patients are not available with this userId : {}", userId);
+                throw new PatientException("Patients not found with this userId : " + userId);
+            }
+            log.info("Patients Found of this user whose userId is : {}", userId);
+            return patientsByUserId;
         }
-        log.info("Patients Found of this user whose userId is : {}", userId);
-        return patientsByUserId;
+        log.error("UserId Not found in the Patients Table with the userId : {}",userId);
+        throw new PatientException("User ID not found in the Patients table!");
     }
 
     @Override
@@ -124,11 +128,11 @@ public class PatientServiceImpl implements PatientService{
         }
         log.warn("Patient Not found with this patientId : {}",patientId);
         throw new PatientException("Patient Not found with this patientId : "+patientId);
-
     }
 
     @Override
     public void deletePatientApplication(Long patientId) {
+        if (patientRepository.existsById(patientId))
 
     }
 }
