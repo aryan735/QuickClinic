@@ -2,6 +2,7 @@ package com.quickclinic.patient.service;
 
 import com.quickclinic.patient.controller.dtos.PatientRequestDto;
 import com.quickclinic.patient.controller.dtos.PatientResponseDto;
+import com.quickclinic.patient.controller.dtos.PatientUpdateDto;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface PatientService {
 
     PatientResponseDto getPatientById(Long id);
     List<PatientResponseDto> getAllPatientsOfAUser(Long userId);
-    void updatePatientDetails(PatientRequestDto patient, Long patientId);
+    void updatePatientDetails(PatientUpdateDto patient, Long patientId);
     void deletePatientApplication(Long patientId);
 
 }
