@@ -17,6 +17,8 @@ public interface PatientRepository extends JpaRepository <PatientModel,Long> {
     @Query("SELECT new com.quickclinic.patient.dtos.PatientResponseDto(u.patientId,u.userId,u.doctorId,u.doctorName,u.name,u.email,u.dob,u.age,u.gender,u.phoneNo,u.alternativePhoneNo,u.address,u.city,u.state,u.zip,u.createdTime,u.updatedTime) FROM PatientModel u WHERE u.userId= : userId")
    List<PatientResponseDto>  getPatientsByUserId(@Param("userId") Long userId);
 
+
+    boolean existsByUserId(Long userId);
    @Modifying
     @Transactional
     @Query("UPDATE PatientModel p SET p.doctorName= :doctorName, p.doctorId=:doctorId, p.name=:name,p.email=:email,p.dob=:dob,p.age=:age,p.gender=:gender,p.phoneNo=:phoneNo,p.alternativePhoneNo=:altNo,p.address=:address,p.city= :city,p.state= :state,p.zip= :zip WHERE p.patientId = : patientId")
