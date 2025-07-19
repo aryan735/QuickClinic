@@ -1,5 +1,6 @@
 package com.quickclinic.userauth.jwt;
 
+import com.quickclinic.userauth.service.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -45,6 +46,11 @@ public class JwtUtil {
         claims.put("roles", userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList());
+        // Check and extract userId from CustomUserDetails
+        if (userDetails instanceof CustomUserDetails) {
+            Long userId = ((CustomUserDetails) userDetails).getId(); // assuming getId() returns String
+            claims.put("userId", userId);
+        }
         return createToken(claims, userDetails.getUsername());
     }
 
