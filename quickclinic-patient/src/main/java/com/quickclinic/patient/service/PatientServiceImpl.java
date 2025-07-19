@@ -78,6 +78,14 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public PatientResponseDto getPatientById(Long id) {
+        BasicUserInfoDto userDetails = userClient.getUserDetails();
+        PatientModel patient1 = patientRepository.findById(id)
+                .orElseThrow(() -> new PatientException("Patient not found with this patientId: " + id));
+
+        if (!patient1.getUserId().equals(userDetails.getId())){
+            log.error("Unauthorized fetching patient details attempt by userId: {} for patientId: {}", userDetails.getId(), id);
+            throw new PatientException("You are not authorized to get this patient.");
+        }
             PatientModel patient = patientRepository.findById(id)
                     .orElseThrow(() -> new PatientException("Patient Not Found with this patientId : " + id));
 
@@ -127,7 +135,7 @@ public class PatientServiceImpl implements PatientService{
 
             if (!patient1.getUserId().equals(userDetails.getId())){
                 log.error("Unauthorized Update attempt by userId: {} for patientId: {}", userDetails.getId(), patientId);
-                throw new PatientException("You are not authorized to delete this patient.");
+                throw new PatientException("You are not authorized to update this patient.");
             }
             int i = patientRepository.updatePatientDetails(patient.getDoctorName(), patient.getDoctorId(), patient.getName(), patient.getEmail(), patient.getDob(), patient.getAge(), patient.getGender(), patient.getPhoneNo(), patient.getAlternativePhoneNo(), patient.getAddress(), patient.getCity(), patient.getState(), patient.getZip(), patientId);
             if (i <1) {
@@ -148,6 +156,6 @@ public class PatientServiceImpl implements PatientService{
             }
             patientRepository.deleteById(patientId);
             log.info("Patient deleted successfully with this patientId : {}",patientId);
-           
+
     }
 }
