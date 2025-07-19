@@ -1,23 +1,29 @@
 package com.quickclinic.userauth.service;
 
+import com.quickclinic.userauth.entity.UserModel;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
     @Getter
     private final Long id;
     private final String username;
     private final String password;
-    private final Collection<? extends GrantedAuthority> authorities;
+    private final List<GrantedAuthority> authorities;
 
-    public CustomUserDetails(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.authorities = authorities;
+    public CustomUserDetails(UserModel user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.authorities = user.getRoles().stream()
+                .map( SimpleGrantedAuthority::new)
+                .map(GrantedAuthority.class::cast)
+                .toList();
     }
 
     @Override
