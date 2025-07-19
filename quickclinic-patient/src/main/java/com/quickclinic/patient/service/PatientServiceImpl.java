@@ -1,5 +1,6 @@
 package com.quickclinic.patient.service;
 
+import com.quickclinic.patient.client.UserClient;
 import com.quickclinic.patient.client.dto.BasicUserInfoDto;
 import com.quickclinic.patient.controller.dtos.PatientRequestDto;
 import com.quickclinic.patient.controller.dtos.PatientResponseDto;
@@ -22,6 +23,7 @@ public class PatientServiceImpl implements PatientService{
 
     private final PatientRepository patientRepository;
     private final KafkaProducer kafkaProducer;
+    private final UserClient userClient;
 
 
     //Saving the patient application
@@ -119,21 +121,24 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public void updatePatientDetails(PatientUpdateDto patient, Long patientId) {
-        if (patientRepository.existsById(patientId)) {
+        BasicUserInfoDto userDetails = userClient.getUserDetails();
+        PatientModel patient1 = patientRepository.findById(patientId)
+                    .orElseThrow(() -> new PatientException("Patient not found with this patientId: " + patientId));
+
+            if (!patient1.getUserId().equals(userDetails.getId())){
+                log.error("Unauthorized Update attempt by userId: {} for patientId: {}", userDetails.getId(), patientId);
+                throw new PatientException("You are not authorized to delete this patient.");
+            }
             int i = patientRepository.updatePatientDetails(patient.getDoctorName(), patient.getDoctorId(), patient.getName(), patient.getEmail(), patient.getDob(), patient.getAge(), patient.getGender(), patient.getPhoneNo(), patient.getAlternativePhoneNo(), patient.getAddress(), patient.getCity(), patient.getState(), patient.getZip(), patientId);
             if (i <1) {
                 throw new PatientException("Patient details update failed!");
             }
             log.info("Patient details are updated successfully with the patientId : {}", patientId);
-            return;
-        }
-        log.warn("Patient Not found with this patientId : {}",patientId);
-        throw new PatientException("Patient Not found with this patientId : "+patientId);
+
     }
 
     @Override
     public void deletePatient(Long patientId, Long userId) {
-        if (patientRepository.existsById(patientId)){
             PatientModel patient = patientRepository.findById(patientId)
                     .orElseThrow(() -> new PatientException("Patient not found with this patientId: " + patientId));
 
@@ -143,9 +148,6 @@ public class PatientServiceImpl implements PatientService{
             }
             patientRepository.deleteById(patientId);
             log.info("Patient deleted successfully with this patientId : {}",patientId);
-            return;
-        }
-       log.error("Patient not found with this patientId : {}",patientId);
-        throw new PatientException("Patient not found with this patientId : "+patientId);
+           
     }
 }
