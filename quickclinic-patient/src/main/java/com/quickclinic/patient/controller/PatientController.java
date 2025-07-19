@@ -1,5 +1,7 @@
 package com.quickclinic.patient.controller;
 
+import com.quickclinic.patient.client.UserClient;
+import com.quickclinic.patient.client.dto.BasicUserInfoDto;
 import com.quickclinic.patient.controller.dtos.PatientRequestDto;
 import com.quickclinic.patient.controller.dtos.PatientResponseDto;
 import com.quickclinic.patient.controller.dtos.PatientUpdateDto;
@@ -21,6 +23,7 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 public class PatientController {
 
     private final PatientServiceImpl patientService;
+    private final UserClient userClient;
 
     @PostMapping("/register/patient")
     public ResponseEntity<String> registerPatient(@RequestBody PatientRequestDto patient){
@@ -35,10 +38,8 @@ public class PatientController {
 
     @GetMapping("/get-All-patients")
     public ResponseEntity<List<PatientResponseDto>> getAllPatientsOfAUser(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-
-        List<PatientResponseDto> patientById = patientService.getAllPatientsOfAUser(id);
+        BasicUserInfoDto userDetails = userClient.getUserDetails();
+        List<PatientResponseDto> patientById = patientService.getAllPatientsOfAUser(userDetails.getId());
         return ResponseEntity.status(HttpStatus.OK).body(patientById);
     }
     @PutMapping("/update-patient-details/patientId/{id}")
@@ -49,7 +50,8 @@ public class PatientController {
 
     @DeleteMapping("/delete-patient/{id}")
     public ResponseEntity<String> deletePatient(@PathVariable Long id){
-        patientService.deletePatient(id);
+        BasicUserInfoDto userDetails = userClient.getUserDetails();
+        patientService.deletePatient(id,userDetails.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Patient Application deleted successfully!");
     }
 }
