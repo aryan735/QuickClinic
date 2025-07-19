@@ -1,5 +1,6 @@
 package com.quickclinic.patient.service;
 
+import com.quickclinic.patient.client.dto.BasicUserInfoDto;
 import com.quickclinic.patient.controller.dtos.PatientRequestDto;
 import com.quickclinic.patient.controller.dtos.PatientResponseDto;
 import com.quickclinic.patient.controller.dtos.PatientUpdateDto;
@@ -131,9 +132,15 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public void deletePatient(Long patientId) {
+    public void deletePatient(Long patientId, Long userId) {
         if (patientRepository.existsById(patientId)){
+            PatientModel patient = patientRepository.findById(patientId)
+                    .orElseThrow(() -> new PatientException("Patient not found with this patientId: " + patientId));
 
+            if (!patient.getUserId().equals(userId)){
+                log.error("Unauthorized deletion attempt by userId: {} for patientId: {}", userId, patientId);
+                throw new PatientException("You are not authorized to delete this patient.");
+            }
             patientRepository.deleteById(patientId);
             log.info("Patient deleted successfully with this patientId : {}",patientId);
             return;
