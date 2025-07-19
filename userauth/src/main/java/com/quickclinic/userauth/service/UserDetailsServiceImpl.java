@@ -20,11 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user==null){
             throw new UsernameNotFoundException("User not found with this username! "+username);
         }
-        return User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles(user.getRoles().toArray(new String[0]))
-                .build();
+        return new CustomUserDetails(user);
 
     }
 }
