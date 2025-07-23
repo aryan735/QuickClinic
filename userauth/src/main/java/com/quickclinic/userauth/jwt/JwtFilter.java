@@ -23,7 +23,6 @@ import java.util.List;
 public class JwtFilter extends OncePerRequestFilter {
 
 
-    private final UserDetailsServiceImpl userDetailsService;
     private final JwtUtil jwtUtil;
 
     @Override
