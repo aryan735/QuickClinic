@@ -19,7 +19,7 @@ public class SpringSecurity {
     private final JwtFilter jwtFilter;
 
     @Bean
-    public SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain patientSecurityFilterChain(HttpSecurity http) throws Exception{
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -36,6 +36,11 @@ spring:
           predicates:
            - Path=/admin/**
 
+        - id: PATIENT-SERVICE
+          uri: lb://PATIENT-SERVICE
+          predicates:
+            - Path=/patients/**
+
 
 eureka:
   client:
